@@ -1,0 +1,156 @@
+﻿<Window x:Class="PasswordGenWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PasswordGenWpf"
+        mc:Ignorable="d"
+        Title="Password Generator" Width="512" Height="384">
+    <local:MultiPanel x:Name="mpWindow" CurrentPage="Main">
+        <Grid local:MultiPanel.Page="Main" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Column="0" Grid.Row="1" Header="Character Set">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                    </Grid.RowDefinitions>
+                    <CheckBox Name="cbUppercase" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Checked="cbUppercase_Checked" Unchecked="cbUppercase_Checked">Uppercase Letters</CheckBox>
+                    <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbUppercaseWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="0" Name="lblUppercaseWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    <CheckBox Name="cbLowercase" IsChecked="True" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Checked="cbLowercase_Checked" Unchecked="cbLowercase_Checked">Lowercase Letters</CheckBox>
+                    <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbLowercaseWeight" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="1" Name="lblLowercaseWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    <CheckBox Name="cbNumbers" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Checked="cbNumbers_Checked" Unchecked="cbNumbers_Checked">Numbers</CheckBox>
+                    <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbNumbersWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="2" Name="lblNumbersWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    <CheckBox Name="cbSymbolPunct" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Checked="cbSymbolPunct_Checked" Unchecked="cbSymbolPunct_Checked">Symbols and Punctuation</CheckBox>
+                    <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbSymbolPunctWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="3" Name="lblSymbolPunctWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    <Grid Grid.Column="0" Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="27"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox Name="cbAlsoInclude" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Checked="cbAlsoInclude_Checked">Also Include:</CheckBox>
+                        <Rectangle Grid.Column="1" Grid.Row="0" Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbAlsoInclude" IsEnabled="False" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontFamily="Lucida Console" FontSize="12">*</TextBox>
+                    </Grid>
+                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbAlsoIncludeWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="4" Name="lblAlsoIncludeWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    <Grid Grid.Column="0" Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="27"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox Name="cbDoNotInclude" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Checked="cbDoNotInclude_Checked">Do Not Include:</CheckBox>
+                        <Rectangle Grid.Column="1" Grid.Row="0" Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbDoNotInclude" IsEnabled="False" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontFamily="Lucida Console" FontSize="12">0oO1lLiI"'</TextBox>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Column="0" Grid.Row="2" Header="Other Parameters">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">Number of Passwords to Generate:</Label>
+                    <TextBox Name="tbPasswordCount" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">50</TextBox>
+                    <Label Grid.Column="3" Grid.Row="0" Name="lblPasswordCountValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+
+                    <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">Length of Each Password:</Label>
+                    <TextBox Name="tbPasswordLength" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">16</TextBox>
+                    <Label Grid.Column="3" Grid.Row="1" Name="lblPasswordLengthValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                </Grid>
+            </GroupBox>
+            <Grid Grid.Column="0" Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="4"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Button Name="bGenerate" Grid.Column="1" Grid.Row="0" Width="100" Click="bGenerate_Click">Generate &gt;</Button>
+            </Grid>
+        </Grid>
+        <Grid local:MultiPanel.Page="Page2" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">Generated Passwords</Label>
+            <TextBox Name="tbPasswords"
+                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                     Margin="4,4,4,4" Padding="2,2,2,2"
+                     IsReadOnly="True"
+                     FontFamily="Lucida Console" FontSize="12.5"
+                     AcceptsReturn="True" AcceptsTab="True">ExampleText</TextBox>
+            <Button Name="bMore" Grid.Column="1" Grid.Row="2" Width="70" Height="auto" Margin="4,4,4,4" Click="bMore_Click">More</Button>
+            <Button Name="bBack" Grid.Column="2" Grid.Row="2" Width="70" Height="auto" Margin="4,4,4,4" Click="bBack_Click">&lt; Back</Button>
+        </Grid>
+    </local:MultiPanel>
+</Window>
