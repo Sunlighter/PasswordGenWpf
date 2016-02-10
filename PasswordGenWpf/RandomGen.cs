@@ -96,6 +96,7 @@ namespace PasswordGenWpf
     {
         private readonly SortedDictionary<char, int> chars;
         private readonly int weightedSize;
+        private readonly double averageBitsPerCharacter;
 
         public Alphabet(AlphabetSpec spec)
         {
@@ -134,7 +135,30 @@ namespace PasswordGenWpf
             }
 
             weightedSize = chars.Select(kvp => kvp.Value).Sum();
+
+            averageBitsPerCharacter = GetAverageBitsPerCharacter();
         }
+
+        private double GetAverageBitsPerCharacter()
+        {
+            double bits = 0.0;
+            double charCount = 0.0;
+            double recipLog2 = 1.0 / Math.Log(2.0);
+
+            foreach(KeyValuePair<char, int> kvp in chars)
+            {
+                charCount += kvp.Value;
+            }
+
+            foreach(KeyValuePair<char, int> kvp in chars)
+            {
+                bits += kvp.Value * (Math.Log(charCount / kvp.Value) * recipLog2);
+            }
+
+            return bits / charCount;
+        }
+
+        public double AverageBitsPerCharacter { get { return averageBitsPerCharacter; } }
 
         private class CharacterSets
         {

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Password Generator" Width="512" Height="384">
     <local:MultiPanel x:Name="mpWindow" CurrentPage="Main">
-        <Grid local:MultiPanel.Page="Main" Visibility="Visible">
+        <Grid local:MultiPanel.Page="Main" Visibility="Visible" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -130,7 +130,7 @@
                 <Button Name="bGenerate" Grid.Column="1" Grid.Row="0" Width="100" Click="bGenerate_Click">Generate &gt;</Button>
             </Grid>
         </Grid>
-        <Grid local:MultiPanel.Page="Page2" Visibility="Hidden">
+        <Grid local:MultiPanel.Page="Page2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
@@ -149,6 +149,7 @@
                      IsReadOnly="True"
                      FontFamily="Lucida Console" FontSize="12.5"
                      AcceptsReturn="True" AcceptsTab="True">ExampleText</TextBox>
+            <Label Name="lblAverageBitsPerPassword" Grid.Column="0" Grid.Row="2">Average Bits per Password: 12.34567891234567</Label>
             <Button Name="bMore" Grid.Column="1" Grid.Row="2" Width="70" Height="auto" Margin="4,4,4,4" Click="bMore_Click">More</Button>
             <Button Name="bBack" Grid.Column="2" Grid.Row="2" Width="70" Height="auto" Margin="4,4,4,4" Click="bBack_Click">&lt; Back</Button>
         </Grid>

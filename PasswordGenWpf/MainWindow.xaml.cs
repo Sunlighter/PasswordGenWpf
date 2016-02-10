@@ -177,6 +177,8 @@ namespace PasswordGenWpf
 
                     tbPasswords.Text = string.Join(Environment.NewLine, lst);
                 }
+
+                lblAverageBitsPerPassword.Content = $"Average Bits per Password: {a.AverageBitsPerCharacter * passwordLength}";
             }
             catch(FormatException)
             {
