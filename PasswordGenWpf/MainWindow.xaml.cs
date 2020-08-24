@@ -30,6 +30,7 @@ namespace PasswordGenWpf
             if (tbUppercaseWeight == null) return;
 
             tbUppercaseWeight.IsEnabled = cbUppercase.IsChecked ?? false;
+            DoValidation();
         }
 
         private void cbLowercase_Checked(object sender, RoutedEventArgs e)
@@ -37,6 +38,7 @@ namespace PasswordGenWpf
             if (tbLowercaseWeight == null) return;
 
             tbLowercaseWeight.IsEnabled = cbLowercase.IsChecked ?? false;
+            DoValidation();
         }
 
         private void cbNumbers_Checked(object sender, RoutedEventArgs e)
@@ -44,6 +46,23 @@ namespace PasswordGenWpf
             if (tbNumbersWeight == null) return;
 
             tbNumbersWeight.IsEnabled = cbNumbers.IsChecked ?? false;
+            DoValidation();
+        }
+
+        private void cbHiragana_Checked(object sender, RoutedEventArgs e)
+        {
+            if (tbHiraganaWeight == null) return;
+
+            tbHiraganaWeight.IsEnabled = cbHiragana.IsChecked ?? false;
+            DoValidation();
+        }
+
+        private void cbKatakana_Checked(object sender, RoutedEventArgs e)
+        {
+            if (tbKatakanaWeight == null) return;
+
+            tbKatakanaWeight.IsEnabled = cbKatakana.IsChecked ?? false;
+            DoValidation();
         }
 
         private void cbSymbolPunct_Checked(object sender, RoutedEventArgs e)
@@ -51,6 +70,7 @@ namespace PasswordGenWpf
             if (tbSymbolPunctWeight == null) return;
 
             tbSymbolPunctWeight.IsEnabled = cbSymbolPunct.IsChecked ?? false;
+            DoValidation();
         }
 
         private void cbAlsoInclude_Checked(object sender, RoutedEventArgs e)
@@ -59,6 +79,7 @@ namespace PasswordGenWpf
 
             tbAlsoInclude.IsEnabled = cbAlsoInclude.IsChecked ?? false;
             tbAlsoIncludeWeight.IsEnabled = cbAlsoInclude.IsChecked ?? false;
+            DoValidation();
         }
 
         private void cbDoNotInclude_Checked(object sender, RoutedEventArgs e)
@@ -66,6 +87,7 @@ namespace PasswordGenWpf
             if (tbDoNotInclude == null) return;
 
             tbDoNotInclude.IsEnabled = cbDoNotInclude.IsChecked ?? false;
+            DoValidation();
         }
 
         private void bGenerate_Click(object sender, RoutedEventArgs e)
@@ -93,6 +115,8 @@ namespace PasswordGenWpf
                 cbUppercase, tbUppercaseWeight, lblUppercaseWeightValid,
                 cbLowercase, tbLowercaseWeight, lblLowercaseWeightValid,
                 cbNumbers, tbNumbersWeight, lblNumbersWeightValid,
+                cbHiragana, tbHiraganaWeight, lblHiraganaWeightValid,
+                cbKatakana, tbKatakanaWeight, lblKatakanaWeightValid,
                 cbSymbolPunct, tbSymbolPunctWeight, lblSymbolPunctWeightValid,
                 cbAlsoInclude, tbAlsoIncludeWeight, lblAlsoIncludeWeightValid,
                 null, tbPasswordCount, lblPasswordCountValid,
@@ -100,6 +124,7 @@ namespace PasswordGenWpf
             };
 
             bool anyBad = false;
+            bool anyNonZero = false;
 
             for (int i = 0; i < u.Length; i += 3)
             {
@@ -120,6 +145,11 @@ namespace PasswordGenWpf
                         else
                         {
                             lbl.Visibility = Visibility.Hidden;
+                            if (cb != null)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"NonZero: {i}");
+                                anyNonZero = true;
+                            }
                         }
                     }
                     else
@@ -130,7 +160,7 @@ namespace PasswordGenWpf
                 }
             }
 
-            bGenerate.IsEnabled = !anyBad;
+            bGenerate.IsEnabled = !anyBad && anyNonZero;
         }
 
         private void tbIntegerEdit_TextChanged(object sender, TextChangedEventArgs e)
@@ -150,8 +180,11 @@ namespace PasswordGenWpf
                 int uppercaseWeight = doParse(cbUppercase, tbUppercaseWeight);
                 int lowercaseWeight = doParse(cbLowercase, tbLowercaseWeight);
                 int numberWeight = doParse(cbNumbers, tbNumbersWeight);
+                int hiraganaWeight = doParse(cbHiragana, tbHiraganaWeight);
+                int katakanaWeight = doParse(cbKatakana, tbKatakanaWeight);
                 int symbolPunctWeight = doParse(cbSymbolPunct, tbSymbolPunctWeight);
                 int alsoIncludeWeight = doParse(cbAlsoInclude, tbAlsoIncludeWeight);
+
                 string alsoInclude = (cbAlsoInclude.IsChecked ?? false) ? (tbAlsoInclude.Text ?? "") : "";
                 string exclude = (cbDoNotInclude.IsChecked ?? false) ? (tbDoNotInclude.Text ?? "") : "";
 
@@ -163,6 +196,12 @@ namespace PasswordGenWpf
                     uppercaseWeight,
                     lowercaseWeight,
                     numberWeight,
+                    hiraganaWeight,
+                    cbHiraganaHe.IsChecked ?? false,
+                    (DakutenStatus)cbxHiraganaDakuten.SelectedIndex,
+                    katakanaWeight,
+                    cbKatakanaHe.IsChecked ?? false,
+                    (DakutenStatus)cbxKatakanaDakuten.SelectedIndex,
                     symbolPunctWeight,
                     alsoInclude,
                     alsoIncludeWeight,

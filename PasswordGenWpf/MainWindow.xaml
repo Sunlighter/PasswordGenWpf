@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PasswordGenWpf"
         mc:Ignorable="d"
-        Title="Password Generator" Width="512" Height="384">
+        Title="Password Generator" Width="512" Height="420">
     <local:MultiPanel x:Name="mpWindow" CurrentPage="Main">
         <Grid local:MultiPanel.Page="Main" Visibility="Visible">
             <Grid.ColumnDefinitions>
@@ -28,12 +28,14 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="26"/>
-                        <RowDefinition Height="26"/>
-                        <RowDefinition Height="26"/>
-                        <RowDefinition Height="26"/>
-                        <RowDefinition Height="26"/>
-                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <CheckBox Name="cbUppercase" IsChecked="True" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Checked="cbUppercase_Checked" Unchecked="cbUppercase_Checked">Uppercase Letters</CheckBox>
                     <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
@@ -42,6 +44,7 @@
                         <TextBox Name="tbUppercaseWeight" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
                     </StackPanel>
                     <Label Grid.Column="3" Grid.Row="0" Name="lblUppercaseWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    
                     <CheckBox Name="cbLowercase" IsChecked="True" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Checked="cbLowercase_Checked" Unchecked="cbLowercase_Checked">Lowercase Letters</CheckBox>
                     <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
                         <Label>Weight:</Label>
@@ -49,6 +52,7 @@
                         <TextBox Name="tbLowercaseWeight" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">5</TextBox>
                     </StackPanel>
                     <Label Grid.Column="3" Grid.Row="1" Name="lblLowercaseWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    
                     <CheckBox Name="cbNumbers" IsChecked="True" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Checked="cbNumbers_Checked" Unchecked="cbNumbers_Checked">Numbers</CheckBox>
                     <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
                         <Label>Weight:</Label>
@@ -56,14 +60,54 @@
                         <TextBox Name="tbNumbersWeight" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">5</TextBox>
                     </StackPanel>
                     <Label Grid.Column="3" Grid.Row="2" Name="lblNumbersWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
-                    <CheckBox Name="cbSymbolPunct" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Checked="cbSymbolPunct_Checked" Unchecked="cbSymbolPunct_Checked">Symbols and Punctuation</CheckBox>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">
+                        <CheckBox Name="cbHiragana" IsChecked="False" VerticalAlignment="Center" Checked="cbHiragana_Checked" Unchecked="cbHiragana_Checked">Hiragana</CheckBox>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <CheckBox Name="cbHiraganaHe" IsChecked="False" VerticalAlignment="Center" >へ</CheckBox>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <Label VerticalAlignment="Center">Dakuten:</Label>
+                        <ComboBox Name="cbxHiraganaDakuten" SelectedIndex="0" MinWidth="100" Height="24" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                          <ComboBoxItem>None</ComboBoxItem>
+                          <ComboBoxItem>Allowed</ComboBoxItem>
+                          <ComboBoxItem>Required</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbHiraganaWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">3</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="3" Name="lblHiraganaWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="4">
+                      <CheckBox Name="cbKatakana" IsChecked="False"  VerticalAlignment="Center" Checked="cbKatakana_Checked" Unchecked="cbKatakana_Checked">Katakana</CheckBox>
+                      <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                      <CheckBox Name="cbKatakanaHe" IsChecked="False" VerticalAlignment="Center" >へ</CheckBox>
+                      <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                      <Label VerticalAlignment="Center">Dakuten:</Label>
+                      <ComboBox Name="cbxKatakanaDakuten" SelectedIndex="0" MinWidth="100" Height="24" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                        <ComboBoxItem>None</ComboBoxItem>
+                        <ComboBoxItem>Allowed</ComboBoxItem>
+                        <ComboBoxItem>Required</ComboBoxItem>
+                      </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
+                        <Label>Weight:</Label>
+                        <Rectangle Width="8" Height="8" Visibility="Hidden"/>
+                        <TextBox Name="tbKatakanaWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">3</TextBox>
+                    </StackPanel>
+                    <Label Grid.Column="3" Grid.Row="4" Name="lblKatakanaWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+
+                    <CheckBox Name="cbSymbolPunct" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Checked="cbSymbolPunct_Checked" Unchecked="cbSymbolPunct_Checked">Symbols and Punctuation</CheckBox>
+                    <StackPanel Grid.Column="2" Grid.Row="5" Orientation="Horizontal">
                         <Label>Weight:</Label>
                         <Rectangle Width="8" Height="8" Visibility="Hidden"/>
                         <TextBox Name="tbSymbolPunctWeight" IsEnabled="False" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">1</TextBox>
                     </StackPanel>
-                    <Label Grid.Column="3" Grid.Row="3" Name="lblSymbolPunctWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
-                    <Grid Grid.Column="0" Grid.Row="4">
+                    <Label Grid.Column="3" Grid.Row="5" Name="lblSymbolPunctWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    
+                    <Grid Grid.Column="0" Grid.Row="6">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
@@ -72,17 +116,18 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="27"/>
                         </Grid.RowDefinitions>
-                        <CheckBox Name="cbAlsoInclude" IsChecked="True" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Checked="cbAlsoInclude_Checked">Also Include:</CheckBox>
+                        <CheckBox Name="cbAlsoInclude" IsChecked="True" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Checked="cbAlsoInclude_Checked" Unchecked="cbAlsoInclude_Checked">Also Include:</CheckBox>
                         <Rectangle Grid.Column="1" Grid.Row="0" Width="8" Height="8" Visibility="Hidden"/>
                         <TextBox Name="tbAlsoInclude" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontFamily="Lucida Console" FontSize="12">#$%&amp;*</TextBox>
                     </Grid>
-                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
+                    <StackPanel Grid.Column="2" Grid.Row="6" Orientation="Horizontal">
                         <Label>Weight:</Label>
                         <Rectangle Width="8" Height="8" Visibility="Hidden"/>
                         <TextBox Name="tbAlsoIncludeWeight" Width="50" VerticalAlignment="Center" TextAlignment="Right" TextChanged="tbIntegerEdit_TextChanged">2</TextBox>
                     </StackPanel>
-                    <Label Grid.Column="3" Grid.Row="4" Name="lblAlsoIncludeWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
-                    <Grid Grid.Column="0" Grid.Row="5">
+                    <Label Grid.Column="3" Grid.Row="6" Name="lblAlsoIncludeWeightValid" VerticalAlignment="Center" FontFamily="Wingdings" FontSize="18" Foreground="Red" Visibility="Hidden">û</Label>
+                    
+                    <Grid Grid.Column="0" Grid.Row="7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
@@ -147,7 +192,7 @@
                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                      Margin="4,4,4,4" Padding="2,2,2,2"
                      IsReadOnly="True"
-                     FontFamily="Lucida Console" FontSize="12.5"
+                     FontFamily="Lucida Console" FontSize="17"
                      AcceptsReturn="True" AcceptsTab="True">ExampleText</TextBox>
             <Label Name="lblAverageBitsPerPassword" Grid.Column="0" Grid.Row="2">Average Bits per Password: 12.34567891234567</Label>
             <Button Name="bMore" Grid.Column="1" Grid.Row="2" Width="70" Height="auto" Margin="4,4,4,4" Click="bMore_Click">More</Button>

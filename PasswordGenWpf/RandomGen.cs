@@ -60,6 +60,13 @@ namespace PasswordGenWpf
         }
     }
 
+    public enum DakutenStatus
+    {
+        Prohibited = 0,
+        Allowed = 1,
+        Required = 2
+    }
+
     public class AlphabetSpec
     {
         public AlphabetSpec
@@ -67,6 +74,12 @@ namespace PasswordGenWpf
             int uppercaseWeight,
             int lowercaseWeight,
             int numberWeight,
+            int hiraganaWeight,
+            bool hiraganaHe,
+            DakutenStatus hiraganaDakutenStatus,
+            int katakanaWeight,
+            bool katakanaHe,
+            DakutenStatus katakanaDakutenStatus,
             int symbolPunctWeight,
             string alsoInclude,
             int alsoIncludeWeight,
@@ -77,6 +90,12 @@ namespace PasswordGenWpf
             UppercaseWeight = uppercaseWeight;
             LowercaseWeight = lowercaseWeight;
             NumberWeight = numberWeight;
+            HiraganaWeight = hiraganaWeight;
+            HiraganaHe = hiraganaHe;
+            HiraganaDakutenStatus = hiraganaDakutenStatus;
+            KatakanaWeight = katakanaWeight;
+            KatakanaHe = katakanaHe;
+            KatakanaDakutenStatus = katakanaDakutenStatus;
             SymbolPunctWeight = symbolPunctWeight;
             AlsoInclude = alsoInclude;
             AlsoIncludeWeight = alsoIncludeWeight;
@@ -86,6 +105,12 @@ namespace PasswordGenWpf
         public int UppercaseWeight { get; }
         public int LowercaseWeight { get; }
         public int NumberWeight { get; }
+        public int HiraganaWeight { get; }
+        public bool HiraganaHe { get; }
+        public DakutenStatus HiraganaDakutenStatus { get; }
+        public int KatakanaWeight { get; }
+        public bool KatakanaHe { get; }
+        public DakutenStatus KatakanaDakutenStatus { get; }
         public int SymbolPunctWeight { get; }
         public string AlsoInclude { get; }
         public int AlsoIncludeWeight { get; }
@@ -123,6 +148,21 @@ namespace PasswordGenWpf
             addSet(spec.UppercaseWeight, characterSets.Value.Uppercase);
             addSet(spec.LowercaseWeight, characterSets.Value.Lowercase);
             addSet(spec.NumberWeight, characterSets.Value.Digits);
+            if (spec.HiraganaWeight > 0)
+            {
+                string hiragana =
+                    (spec.HiraganaDakutenStatus.AllowsDakutenNo() ? (characterSets.Value.HiraganaNoDakuten + (spec.HiraganaHe ? characterSets.Value.HiraganaHeNoDakuten : "")) : "") +
+                    (spec.HiraganaDakutenStatus.AllowsDakutenYes() ? (characterSets.Value.HiraganaDakuten + (spec.HiraganaHe ? characterSets.Value.HiraganaHeDakuten : "")) : "");
+
+                addSet(spec.HiraganaWeight, hiragana);
+            }
+            if (spec.KatakanaWeight > 0)
+            {
+                string katakana =
+                    (spec.KatakanaDakutenStatus.AllowsDakutenNo() ? (characterSets.Value.KatakanaNoDakuten + (spec.HiraganaHe ? characterSets.Value.KatakanaHeNoDakuten : "")) : "") +
+                    (spec.KatakanaDakutenStatus.AllowsDakutenYes() ? (characterSets.Value.KatakanaDakuten + (spec.HiraganaHe ? characterSets.Value.KatakanaHeDakuten : "")) : "");
+                addSet(spec.KatakanaWeight, katakana);
+            }
             addSet(spec.SymbolPunctWeight, characterSets.Value.SymbolPunct);
             addSet(spec.AlsoIncludeWeight, spec.AlsoInclude);
             
@@ -200,6 +240,16 @@ namespace PasswordGenWpf
             public string Lowercase { get; }
             public string Digits { get; }
             public string SymbolPunct { get; }
+
+            public string HiraganaNoDakuten { get; } = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふほまみむめもやゆよらりるれろわを";
+            public string HiraganaHeNoDakuten { get; } = "へ";
+            public string HiraganaDakuten { get; } = "がぎぐげござじずぜぞだぢづでどばびぶぼぱぴぷぽ";
+            public string HiraganaHeDakuten { get; } = "べぺ";
+
+            public string KatakanaNoDakuten { get; } = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフホマミムメモヤユヨラリルレロワヲ";
+            public string KatakanaHeNoDakuten { get; } = "ヘ";
+            public string KatakanaDakuten { get; } = "ガギグゲゴザジズゼゾダヂヅデドバビブボパピプポ";
+            public string KatakanaHeDakuten { get; } = "ベペ";
         }
 
         private static Lazy<CharacterSets> characterSets = new Lazy<CharacterSets>(LazyThreadSafetyMode.ExecutionAndPublication);
@@ -242,6 +292,16 @@ namespace PasswordGenWpf
                 sb.Append(a.GetChar(random.NextInt32(a.WeightedSize)));
             }
             return sb.ToString();
+        }
+
+        public static bool AllowsDakutenYes(this DakutenStatus ds)
+        {
+            return ds == DakutenStatus.Allowed || ds == DakutenStatus.Required;
+        }
+
+        public static bool AllowsDakutenNo(this DakutenStatus ds)
+        {
+            return ds == DakutenStatus.Allowed || ds == DakutenStatus.Prohibited;
         }
     }
 }
