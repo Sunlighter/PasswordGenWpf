@@ -1,4 +1,6 @@
-# SimpleForth
-An simple Forth-like interpreter in C#
+# PasswordGenWpf
+A password generator written with C# and WPF
 
-This was originally written for Visual Studio 2005.
+This program was originally written for .NET Framework.
+
+It is relatively self-explanatory but you have to compile it and run it.
